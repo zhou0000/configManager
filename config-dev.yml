@@ -1,3 +1,18 @@
-girl:
-  name: 丽丽
-  age: 22
+server:
+  port: 10087
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/zhou0000/configManager/tree/master
+          username: zhou0000
+          password: Zhou@0086
+          basedir: G:\product\configManage\config-server\basedir
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka
+
