@@ -3,6 +3,13 @@ server:
 spring:
   application:
     name: config-client
+  cloud:
+    config:
+      profile: dev
+      name: config
+      discovery:
+        enabled: true
+        service-id: CONFIG-SERVER
 eureka:
   client:
     service-url:
