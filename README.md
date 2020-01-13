@@ -81,6 +81,72 @@
 
 * 理论：
 
+![分析](https://github.com/zhou0000/configManager/blob/zhou/imgs/spring-cloud-bus.png)
+
+* 修改config-server端
+    
+      1，添加依赖
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bus-amqp</artifactId>
+        </dependency>
+      2，添加配置
+          rabbitmq:
+            host: 192.168.117.128
+            port: 5672
+            username: zhou01
+            password: zhou01
+            virtual-host: /leyou
+        management: #暴露触发消息总线的地址
+          endpoints:
+            web:
+              exposure:
+                include: "bus-refresh"
+
+* 修改config-client 端
+
+       1，添加依赖
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-bus-amqp</artifactId>
+            </dependency>
+       2，在远端git添加配置   
+            spring:
+              rabbitmq: # MQ配置
+                host: 192.168.117.128
+                port: 5672
+                username: zhou01
+                password: zhou01
+                virtual-host: /leyou
+      在远端git修改配置，配置中心服务端自动刷新，而客户端访问：http://localhost:10087/actuator/bus-refresh post 请求才能自动刷新，不够智能
+     
+## 使用webhook实现客户端自动刷新
+
+* 修改config-server服务端（客户端不需要做任何修改）
+
+      1，添加依赖
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-config-monitor</artifactId>
+            </dependency>
+      2，修改配置
+          rabbitmq:
+            host: 192.168.117.128
+            port: 5672
+            username: zhou01
+            password: zhou01
+            virtual-host: /leyou
+        management: #暴露触发消息总线的地址
+          endpoints:
+            web:
+              exposure:
+                #include: "bus-refresh"
+                include: "*"
+       3，修改服务端端口为80，也可以不用修改，如果不修改需要配nginx来监听80
+       4，在git根目录setting 添加webhooks，使用内网穿透工具natapp生成一个域名，最终Payload URL路径：http://7ugkdy.natappfree.cc/monitor?path=*   Content type：选择：application/x-www-form-urlencoded
+      配置好后，修改git的配置文件，会自动触发配置的webhook请求，实现配置中心客户端自动刷新
+
+
     
        
     
