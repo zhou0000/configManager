@@ -2,7 +2,7 @@ server:
   port: 10087
 spring:
   application:
-    name: client-server
+    name: config-server
   cloud:
     config:
       server:
@@ -13,6 +13,17 @@ spring:
           search-paths: /config-demo #子目录
           basedir: G:\product\configManage\config-server\basedir #config server会从远端git拉取一份到本地
       profile: dev
+  rabbitmq:
+    host: 192.168.117.128
+    port: 5672
+    username: zhou01
+    password: zhou01
+    virtual-host: /leyou
+management: #暴露触发消息总线的地址
+  endpoints:
+    web:
+      exposure:
+        include: "bus-refresh"
 eureka:
   client:
     service-url:
