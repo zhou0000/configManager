@@ -1,21 +1,31 @@
-# configManager
-spring cloud config : 统一配置中心
-意义：
-    在分布式环境里，很多服务都要做集群部署，那就意味着这些服务都要提供一样的服务，所以他们的配置文件必须相同，
-    我们提取一个配置中心，让他们从一个中心处拉取配置文件，这样就能保证所有的配置都相同，修改配置时，只需要修改一个地方即可
-    如果项目上线之后，修改配置的话需要重启服务，如果使用同一配置自动刷新，就不需要重启项目
-spring cloud config 就是提供配置中心的作用
-spring cloud config 架构：客户端 和 服务端
+## configManager
+
+* spring cloud config : 统一配置中心
+
+* 意义：
+
+    在分布式环境里，很多服务都要做集群部署，那就意味着这些服务都要提供一样的服务，所以他们的配置文件必须相同，我们提取一个配置中心，让他们从一个中心处拉取配置文件，这样就能保证所有的配置都相同，修改配置时，只需要修改一个地方即可，如果项目上线之后，修改配置的话需要重启服务，如果使用同一配置自动刷新，就不需要重启项目
+    
+* spring cloud config 就是提供配置中心的作用
+
+* spring cloud config 架构：客户端 和 服务端
+
 ![同一配置中心架构图](https://github.com/zhou0000/configManager/blob/zhou/imgs/spring-cloud-config.png)
-  server 服务端：用来提供配置文件
-  client 客户端：从server中拉取配置文件
-spring cloud config server :
-    1，引入依赖
+
+* server 服务端：用来提供配置文件
+
+* client 客户端：从server中拉取配置文件
+
+### spring cloud config server :
+
+    1,引入依赖
+    
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-config-server</artifactId>
         </dependency>
-    2，在启动类上添加注解@EnableConfigServer
+        
+    2,在启动类上添加注解@EnableConfigServer
     3，修改配置文件 配置远程git信息
         spring:
           cloud:
@@ -40,7 +50,8 @@ spring cloud config server :
                如果访问config-dev.yml的配置文件，他会把config.yml的文件和config-dev.yml的文件进行合并输出
                如果有config-text.yml配置文件，访问此文件也是会将config.yml的文件进行合并输出，
                所以config.yml文件一般放通用的配置信息
- Spring cloud config client ：
+### Spring cloud config client ：
+ 
     1，引入依赖
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -66,8 +77,11 @@ spring cloud config server :
             service-url:
               defaultZone: http://127.0.0.1:10086/eureka
   以上：就搭建好了配置中心的服务端和客户端，此时修改git里的配置文件，服务端会自动刷新，而客户端不会刷新
-使用spring cloud bus 自动更新配置
-    理论：
+## 使用spring cloud bus 自动更新配置
+
+* 理论：
+
+    
        
     
        
